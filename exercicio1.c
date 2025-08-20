@@ -56,4 +56,6 @@ int main (){
     printf("Pontuacao final: %d\n", pontosF); //Exibir pontuação final
     printf("Diferenca: %d - %d = %d\n", pontosF, pontosI, pontosF - pontosI);  //Calcular e mostrar a diferença entre a pontuação inicial e final
 
+    //Retorno
+    return 0;
 }
