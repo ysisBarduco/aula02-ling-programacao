@@ -4,6 +4,12 @@
 //Variaveis globais
 double saldo = 1000.00; //Saldo inicial: R$ 1000,00
 
+//Protótipos de função
+void consultarSaldo(void);
+void realizarDeposito(void);
+void realizarSaque(void);
+void transferirValor(void);
+
 int main(){
     int opcao;
 
@@ -42,7 +48,7 @@ int main(){
             transferirValor();
         }
    
-    } while(opcao =! 5);
+    } while(opcao != 5);
 
     return 0;
 }
@@ -66,11 +72,11 @@ void realizarDeposito(void){
         saldo += deposito;
         printf("\nDeposito de R$%.2f realizado com sucesso!\n", deposito);
         printf("Saldo atual: %.2f\n", saldo);
-        main();
+
     }
     else{
         printf("\nVALOR INVALIDO!\n");
-        main();
+
     }
 
 }
@@ -81,17 +87,20 @@ void realizarSaque(void){
     printf("\n=== REALIZAR SAQUE ===\n");
 
     //Entrada: valor monetário
-    printf("Digite o valor que deseja sacar(máximo R$500.00): ");
-    scanf("%fl", &saque);
+    printf("Digite o valor que deseja sacar(maximo R$500.00): ");
+    scanf("%lf", &saque);
 
     //Valor maximo para saque por operação: R$500,00
     if(saque > 500.00){
         printf("\nSAQUE INVALIDO! Valor limite para saque ultrapassado.\n");
     }
+
     //Não permitir saque maior que saldo disponivel
     else if(saque > saldo){
         printf("\nSAQUE INVALIDO! Saldo insuficiente.\n");
     }
+
+    //Saque bem sucedido
     else{
         saldo -= saque;
         printf("\nSaque de %.2f realizado com sucesso!\n", saque);
@@ -101,15 +110,40 @@ void realizarSaque(void){
 
 void transferirValor(void){
     int conta;
-    double transferir, taxa;
+    double transferir, taxa, debitartransferencia;
 
     printf("\n=== TRANFERENCIA ENTRE CONTAS ===\n");
     
+    //Permite que o usuário escolha a conta para a qual quer tranferir
+    printf("Transferir para a conta: ");
+    scanf("%d", &conta);
+
     //Entrada: valor monetário
     printf("Digite o valor que deseja tranferir: ");
-    scanf("%fl", &transferir);
+    scanf("%lf", &transferir);
 
-    taxa = transferir * 1/100;
     //Taxa de transferencia: 1% do valor (minimo R$2,00)
+    taxa = transferir * 1/100;
 
+    //Caso a taxa não atinja o valor minimo
+    if (taxa < 2.00){
+        taxa = 2.00;
+    }
+
+    //Valor da transferencia + taxa
+    debitartransferencia = transferir + taxa;
+
+    //Mostra ao usuário os valores
+    printf("\nTransferir: R$%.2f\n", transferir);
+    printf("Taxa: R$%.2f\n", taxa);
+    printf("Total: R$%.2f\n", debitartransferencia);
+
+    if (debitartransferencia > saldo){
+        printf("\n Saldo insuficiente.\n");
+    }
+    else{
+        saldo -= debitartransferencia;
+        printf("\nTransferencia de R$%.2f, para a conta %d, realizado com sucesso!\n", transferir, conta);
+        printf("Saldo atual: %.2f\n", saldo);
+    }
 }
